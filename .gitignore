@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# Large datasets and generated files
+*.csv
+*.tsv
+*.parquet
+*.pkl
+*.joblib
+*.model
+*.bin
+
+# Logs and temporary files
+*.log
+.ipynb_checkpoints/
+
+# Large local databases
+*.sqlite
+*.sqlite3
+*.db
+
+# macOS metadata
+.DS_Store
+__MACOSX/

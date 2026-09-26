@@ -1,0 +1,74 @@
+AMAZON ML CHALLENGE 2026
+CANDIDATE + BASELINE MATCHING RESULT
+=====================================
+
+Development S1 rows:
+10,000
+
+Source 2 rows:
+5,034,616
+
+Source 3 rows:
+5,285,603
+
+Candidate cap:
+2,000
+
+Total candidate pairs:
+19,829,807
+
+Average candidates per S1:
+1982.9807
+
+True match pairs:
+34,752
+
+True matches retrieved by blocking:
+23,185
+
+Blocking recall:
+0.66715585
+
+Baseline predicted pairs:
+210,583
+
+TP:
+15,354
+
+FP:
+195,229
+
+FN:
+19,398
+
+Global precision:
+0.07291187
+
+Global recall:
+0.44181630
+
+Global F0.5 (diagnostic):
+0.08752867
+
+Exact S1 set matches:
+857
+
+=====================================
+MACRO F0.5:
+0.44101331
+=====================================
+
+IMPORTANT:
+This Macro F0.5 is a DEVELOPMENT score on the first
+10,000 Source 1 records.
+
+The baseline prediction was created from candidate similarity rules.
+It is NOT yet the final LightGBM/XGBoost model.
+
+Files:
+C:\Users\vbcha\Downloads\6ab10eb3b23ba_student_resource\student_resource\candidate_pairs.tsv
+C:\Users\vbcha\Downloads\6ab10eb3b23ba_student_resource\student_resource\predictions.tsv
+C:\Users\vbcha\Downloads\6ab10eb3b23ba_student_resource\student_resource\matching_results.tsv
+C:\Users\vbcha\Downloads\6ab10eb3b23ba_student_resource\student_resource\f05_entity_details.tsv
+C:\Users\vbcha\Downloads\6ab10eb3b23ba_student_resource\student_resource\f05_summary.txt
+C:\Users\vbcha\Downloads\6ab10eb3b23ba_student_resource\student_resource\candidate_cap_results.csv
