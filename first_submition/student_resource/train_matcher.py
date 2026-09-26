@@ -90,7 +90,7 @@ def features(a,b):
             int(bool(ad1 and ad1==ad2)),int(bool(n1 and n2 and n1[:8]==n2[:8])),
             overlap,int(bool(ad1 and ad2))]
 
-def make_pairs(s1, refs, idx, truth=None, limit=None):
+def make_pairs(s1, refs, idx, truth=None, limit=2000):
     refmap={r.entity_id:r for r in refs.itertuples(index=False)}
     rows=[]; total=0; positive_found=0; positive_total=0
     for r in s1.itertuples(index=False):
@@ -120,17 +120,16 @@ def load_truth(path):
         truth[str(r.source1_entity_id)]={x.strip() for x in ids.split(",") if x.strip()}
     return truth
 
-def macro_f05(df, probs, threshold):
-    by={}
-    for (sid, group), p in zip(df.groupby("s1",sort=False), []): pass
+def macro_f05(df, probs, threshold, source1_ids, truth_map):
     pred={}
     for sid,eid,p in zip(df.s1,df.candidate,probs):
         if p>=threshold: pred.setdefault(sid,set()).add(eid)
-    truth=df.groupby("s1").apply(lambda g:set(g.loc[g.label==1,"candidate"]),include_groups=False).to_dict()
     scores=[]
-    for sid,t in truth.items():
-        p=pred.get(sid,set()); tp=len(t&p); fp=len(p-t); fn=len(t-p)
-        scores.append(1.25*tp/(1.25*tp+0.25*fn+fp) if (tp or fp or fn) else 1.0)
+    for sid in source1_ids:
+        t=truth_map.get(sid,set()); p=pred.get(sid,set())
+        tp=len(t&p); fp=len(p-t); fn=len(t-p)
+        denom=1.25*tp+0.25*fn+fp
+        scores.append(1.0 if denom==0 else 1.25*tp/denom)
     return sum(scores)/max(1,len(scores))
 
 def main():
@@ -153,7 +152,7 @@ def main():
     probs=model.predict_proba(va[FEATURES])[:,1]
     best=(float("-inf"),0.5)
     for threshold in [x/100 for x in range(20,96,2)]:
-        score=macro_f05(va,probs,threshold)
+        score=macro_f05(va,probs,threshold,val_s1.entity_id,truth)
         if score>best[0]: best=(score,threshold)
     print(f"Validation macro F0.5: {best[0]:.6f} at threshold {best[1]:.2f}")
     (OUT/"model_threshold.txt").write_text(f"{best[1]:.2f}\n",encoding="utf-8")
